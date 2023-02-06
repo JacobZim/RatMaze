@@ -23,6 +23,11 @@ double screen_x = 700;
 double screen_y = 500;
 
 Maze gMaze;
+double gX = 1.5;
+double gY = .5;
+double gDegrees = 30;
+bool gMoveForward = false;
+double gSpeed = .001;
 // 
 // Functions that draw basic primitives
 //
@@ -88,17 +93,35 @@ void display(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 
+	if (gMoveForward) {
+		// get old code for getting dt
+		//gRat.MoveForward(dt);
+		double radians = gDegrees / 180 * 3.1415926;
+		double dx = cos(radians);
+		double dy = sin(radians);
+		gX += dx * gSpeed;
+		gY += dy * gSpeed;
+	}
+
 	// Test lines that draw all three shapes and some text.
 	// Delete these when you get your code working.
 	glColor3d(0,0,1);
-	DrawRectangle(200, 200, 250, 250);
-	DrawTriangle(300, 300, 350, 300, 350, 350);
-	DrawCircle(50, 50, 30);
+	
+	//Draw the rat, make your own class with Rat.Draw()
+	//Make a method to find start cell and calculate starting position
+	//Code_keys.cpp/.h available for download
+	glColor3d(1, 0, 0);
+	glPushMatrix();
+	glTranslated(gX, gY, 0);
+	glRotated(gDegrees, 0, 0, 1);
+	DrawTriangle(.3, 0, -.2, -.2, -.2, .2);
+	glPopMatrix();
 
 	glColor3d(0,0,0);
 	gMaze.Draw();
 
 	glutSwapBuffers();
+	glutPostRedisplay();
 }
 
 
@@ -153,8 +176,16 @@ void mouse(int mouse_button, int state, int x, int y)
 	}
 	if (mouse_button == GLUT_MIDDLE_BUTTON && state == GLUT_DOWN) 
 	{
+		gMoveForward = true;
 	}
 	if (mouse_button == GLUT_MIDDLE_BUTTON && state == GLUT_UP) 
+	{
+		gMoveForward = false;
+	}
+	if (mouse_button == GLUT_RIGHT_BUTTON && state == GLUT_UP)
+	{
+	}
+	if (mouse_button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN)
 	{
 	}
 	glutPostRedisplay();
