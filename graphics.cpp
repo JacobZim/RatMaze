@@ -208,6 +208,7 @@ int main(int argc, char **argv)
 	glutInitWindowPosition(50, 50);
 
 	int fullscreen = 0;
+	//int id1, id2;
 	if (fullscreen) 
 	{
 		glutGameModeString("800x600:32");
@@ -216,7 +217,10 @@ int main(int argc, char **argv)
 	else 
 	{
 		glutCreateWindow("This appears in the title bar");
+		// id2 = glutCreateWindow("Second window");
 	}
+
+	//glutSetWindow(id2);
 
 	glutDisplayFunc(display);
 	glutKeyboardFunc(keyboard);

@@ -89,3 +89,29 @@ void Maze::Draw() {
 		}
 	}
 }
+
+int Maze::GetStartX() {
+	return mStartX;
+}
+
+bool Maze::IsSafe(double x, double y, double radius) {
+	int cellX = (int)x;
+	int cellY = (int)y;
+	double offsetX = x - cellX;
+	double offsetY = y - cellY;
+	// Check right wall of current cell
+	if ((mCells[cellX][cellY].r) && (offsetX + radius >= 1.0)) 
+		return false;
+	// Check left wall
+	if (mCells[cellX][cellY].l && (offsetX - radius <= 0.0))
+		return false;
+	//repeat other 2 edges
+	
+	// check right bottom corner
+	if (offsetX + radius >= 1.0 && offsetY - radius <= 0)
+		return false;
+	// repeat for other 3 corners
+
+
+	return true;
+}

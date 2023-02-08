@@ -25,6 +25,8 @@ public:
 	void Draw();
 	void RemoveWalls(int i, int j);
 	void Initialize();
+	int GetStartX();
+	bool IsSafe(double x, double y, double radius);
 private:
 	Cell mCells[M][N];
 };
