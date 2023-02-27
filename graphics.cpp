@@ -25,7 +25,7 @@
 // Global Variables (Only what you need!)
 double screen_x = 700;
 double screen_y = 500;
-
+viewtype current_view = top_view;
 
 Maze gMaze;
 Rat gRat;
@@ -36,24 +36,6 @@ bool gTurnLeft = false;
 double gSpeed = .001;
 
 // global types and variable:
-enum viewtype { top_view, perspective_view, rat_view };
-
-// 
-// Functions that draw basic primitives
-//
-void DrawCircle(double x1, double y1, double radius)
-{
-	glBegin(GL_POLYGON);
-	for(int i=0; i<32; i++)
-	{
-		double theta = (double)i/32.0 * 2.0 * 3.1415926;
-		double x = x1 + radius * cos(theta);
-		double y = y1 + radius * sin(theta);
-		glVertex2d(x, y);
-	}
-	glEnd();
-}
-
 
 
 
@@ -82,7 +64,7 @@ void display(void)
 	{
 		glEnable(GL_DEPTH_TEST);
 		glLoadIdentity();
-		double z_level = .25;
+		/*double z_level = .25;
 		double x = gRat.GetX();
 		double y = gRat.GetY();
 		double dx = gRat.GetDX();
@@ -90,7 +72,7 @@ void display(void)
 		double at_x = x + dx;
 		double at_y = y + dy;
 		double at_z = z_level;
-		gluLookAt(x, y, z_level, at_x, at_y, at_z, 0, 0, 1);
+		gluLookAt(x, y, z_level, at_x, at_y, at_z, 0, 0, 1);*/
 	}
 
 	if (gMoveForward) {
@@ -170,29 +152,6 @@ void SetPerspectiveView(int w, int h)
 		/* Z near */ .1, /* Z far */ 30.0);
 	glMatrixMode(GL_MODELVIEW);
 }
-	switch (c) 
-	{
-		case 27: // escape character means to quit the program
-			exit(0);
-			break;
-		case 'b':
-			// do something when 'b' character is hit.
-			break;
-		case 'w':
-			gMoveForward = true;
-			break;
-		case 'a':
-			gTurnLeft = true;
-			break;
-		case 's':
-			gMoveBackwards = true;
-			break;
-		case 'd':
-			gTurnRight = true;
-			break;
-		default:
-			return; // if we don't care, return without glutPostRedisplay()
-	}
 
 
 // reshape:
@@ -243,6 +202,18 @@ void keyboard(unsigned char c, int x, int y)
 	{
 	case 27: // escape character means to quit the program
 		exit(0);
+		break;
+	case 'w':
+		gMoveForward = true;
+		break;
+	case 'a':
+		gTurnLeft = true;
+		break;
+	case 's':
+		gMoveBackwards = true;
+		break;
+	case 'd':
+		gTurnRight = true;
 		break;
 	case 'b':
 		// do something when 'b' character is hit.
