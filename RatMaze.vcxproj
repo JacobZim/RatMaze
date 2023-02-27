@@ -141,14 +141,17 @@
   <ItemGroup>
     <ClCompile Include="Code_keys.cpp" />
     <ClCompile Include="graphics.cpp" />
+    <ClCompile Include="HelperFunctions.cpp" />
     <ClCompile Include="Maze.cpp" />
     <ClCompile Include="Rat.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code_keys.h" />
     <ClInclude Include="glut.h" />
+    <ClInclude Include="HelperFunctions.h" />
     <ClInclude Include="Maze.h" />
     <ClInclude Include="Rat.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="glut32.dll" />
@@ -158,6 +161,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="GlutDirectories.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="RatMaze.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

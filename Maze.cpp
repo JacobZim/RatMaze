@@ -1,5 +1,6 @@
 
 #include <vector>
+#include <iostream>
 #include "glut.h"
 #include "Maze.h"
 
@@ -31,17 +32,23 @@ void Cell::Draw(int i, int j) {
 }
 
 Maze::Maze() {
-	
-	// Knock out 1 bottom wall and 1 top wall
 }
 
 void Maze::Initialize() {
 	RemoveWalls(0, 0);
+
+	// Knock out 1 bottom wall and 1 top wall
+	mStartX = rand() % mW;
+	mEndX = rand()*rand() % mW;
+	mCells[mStartX][0].b = false;
+	mCells[mEndX][mH - 1].t = false;
+	//mRat.SetPosition(mStartX + 0.5, 0.5, 0);
 }
 
 void Maze::RemoveWalls(int i, int j) {
 	mCells[i][j].visited = true;
 	enum class direction { LEFT, UP, RIGHT, DOWN };
+
 
 	while (true) {
 		std::vector<direction> move;
@@ -90,8 +97,15 @@ void Maze::Draw() {
 	}
 }
 
+/*void Maze::DrawRat() {
+	mRat.Draw();
+}**/
+
 int Maze::GetStartX() {
 	return mStartX;
+}
+int Maze::GetEndX() {
+	return mEndX;
 }
 
 bool Maze::IsSafe(double x, double y, double radius) {
@@ -105,13 +119,25 @@ bool Maze::IsSafe(double x, double y, double radius) {
 	// Check left wall
 	if (mCells[cellX][cellY].l && (offsetX - radius <= 0.0))
 		return false;
-	//repeat other 2 edges
+	// Check top wall of current cell
+	if ((mCells[cellX][cellY].t) && (offsetY + radius >= 1.0))
+		return false;
+	// Check bottom wall
+	if (mCells[cellX][cellY].b && (offsetY - radius <= 0.0))
+		return false;
 	
 	// check right bottom corner
 	if (offsetX + radius >= 1.0 && offsetY - radius <= 0)
 		return false;
-	// repeat for other 3 corners
-
+	// check left bottom corner
+	if (offsetX - radius <= 0.0 && offsetY - radius <= 0)
+		return false;
+	// check right top corner
+	if (offsetY + radius >= 1.0 && offsetX + radius >= 1.0)
+		return false;
+	// check left top corner
+	if (offsetY + radius >= 1.0 && offsetX - radius <= 0)
+		return false;
 
 	return true;
 }

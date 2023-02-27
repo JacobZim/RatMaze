@@ -2,9 +2,20 @@
 
 
 
-class Rat() {
+class Rat {
 public:
-	Rat()
+	Rat() {};
+	Rat(double x, double y, double degrees);
+	void Scurry(Maze& m, double DT, bool backwards = false);
+	void SpinLeft(double DT);
+	void SpinRight(double DT);
+	void Draw();
+	void SetX(double x) { mX = x; };
+	void SetY(double y) { mY = y; };
+	void SetDegrees(double degrees) { mDegrees = degrees;};
+	void SetPosition(double x, double y, double deg);
 private:
-	double ratsRadius;
-}
+	double mX = 0, mY = 0, mDegrees = 0;
+	double mSpinSpeed = .4, mMoveSpeed = 0.004;
+	double ratsRadius = 0.25;
+};
