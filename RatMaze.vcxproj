@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClInclude Include="Code_keys.h" />
     <ClInclude Include="glut.h" />
+    <ClInclude Include="graphics.h" />
     <ClInclude Include="Maze.h" />
     <ClInclude Include="Rat.h" />
   </ItemGroup>

@@ -4,7 +4,9 @@
 
 class Rat() {
 public:
-	Rat()
+	Rat() {};
 private:
-	double ratsRadius;
-}
+	double mX;
+	double mY;
+	double mDegrees, mMoveSpeed, mSpinSpeed;
+};

@@ -16,6 +16,7 @@
 #include <ctime>
 #include "glut.h"
 #include "Maze.h"
+#include "graphics.h"
 
 
 // Global Variables (Only what you need!)
@@ -23,11 +24,16 @@ double screen_x = 700;
 double screen_y = 500;
 
 Maze gMaze;
+
 double gX = 1.5;
 double gY = .5;
 double gDegrees = 30;
 bool gMoveForward = false;
 double gSpeed = .001;
+
+// global types and variable:
+enum viewtype { top_view, perspective_view, rat_view };
+
 // 
 // Functions that draw basic primitives
 //
@@ -91,7 +97,33 @@ void DrawText(double x, double y, const char *string)
 // system whenever it decides things need to be redrawn.
 void display(void)
 {
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
+	if (current_view == perspective_view)
+	{
+		glEnable(GL_DEPTH_TEST);
+		glLoadIdentity();
+		gluLookAt(-3, -3, 7, 3, 3, 0, 0, 0, 1);
+	}	//camera position, point looking at, tilt
+	else if (current_view == top_view)
+	{
+		glDisable(GL_DEPTH_TEST);
+		glLoadIdentity();
+	}
+	else // current_view == rat_view
+	{
+		glEnable(GL_DEPTH_TEST);
+		glLoadIdentity();
+		double z_level = .25;
+		double x = gRat.GetX();
+		double y = gRat.GetY();
+		double dx = gRat.GetDX();
+		double dy = gRat.GetDY();
+		double at_x = x + dx;
+		double at_y = y + dy;
+		double at_z = z_level;
+		gluLookAt(x, y, z_level, at_x, at_y, at_z, 0, 0, 1);
+	}
 
 	if (gMoveForward) {
 		// get old code for getting dt
@@ -125,26 +157,55 @@ void display(void)
 }
 
 
-// This callback function gets called by the Glut
-// system whenever a key is pressed.
-void keyboard(unsigned char c, int x, int y)
-{
-	switch (c) 
-	{
-		case 27: // escape character means to quit the program
-			exit(0);
-			break;
-		case 'b':
-			// do something when 'b' character is hit.
-			break;
-		default:
-			return; // if we don't care, return without glutPostRedisplay()
-	}
 
-	glutPostRedisplay();
+
+
+void SetTopView(int w, int h)
+{
+	// go into 2D mode
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	double world_margin_x = 0.5;
+	double world_margin_y = 0.5;
+	gluOrtho2D(-world_margin_x, M + world_margin_x,
+		-world_margin_y, N + world_margin_y);
+	glMatrixMode(GL_MODELVIEW);
+}
+
+void SetPerspectiveView(int w, int h)
+{
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	double aspectRatio = (GLdouble)w / (GLdouble)h;
+	gluPerspective(
+		/* field of view in degree */ 38.0,
+		/* aspect ratio */ aspectRatio,
+		/* Z near */ .1, /* Z far */ 30.0);
+	glMatrixMode(GL_MODELVIEW);
 }
 
 
+// reshape:
+void reshape(int w, int h)
+{
+	screen_x = w;
+	screen_y = h;
+	glViewport(0, 0, w, h);
+
+	if (current_view == top_view)
+	{
+		SetTopView(w, h);
+	}
+	else if (current_view == perspective_view)
+	{
+		SetPerspectiveView(w, h);
+	}
+	else // current_view == rat_view
+	{
+		SetPerspectiveView(w, h);
+	}
+}
+/*
 // This callback function gets called by the Glut
 // system whenever the window is resized by the user.
 void reshape(int w, int h)
@@ -162,6 +223,37 @@ void reshape(int w, int h)
 	gluOrtho2D(-.5, M+0.5, -.5, N+.5);
 	glMatrixMode(GL_MODELVIEW);
 
+}*/
+
+// This callback function gets called by the Glut
+// system whenever a key is pressed.
+void keyboard(unsigned char c, int x, int y)
+{
+	switch (c)
+	{
+	case 27: // escape character means to quit the program
+		exit(0);
+		break;
+	case 'b':
+		// do something when 'b' character is hit.
+		break;
+	case 'r':
+		current_view = rat_view;
+		SetPerspectiveView(screen_x, screen_y);
+		break;
+	case 'p':
+		current_view = perspective_view;
+		SetPerspectiveView(screen_x, screen_y);
+		break;
+	case 't':
+		current_view = top_view;
+		SetTopView(screen_x, screen_y);
+		break;
+	default:
+		return; // if we don't care, return without glutPostRedisplay()
+	}
+
+	glutPostRedisplay();
 }
 
 // This callback function gets called by the Glut
@@ -196,6 +288,8 @@ void InitializeMyStuff()
 {
 	srand(time(0));
 	gMaze.Initialize();
+	gRat.Init(gMaze.GetStartX() + .5, .5, 90);
+	//InitKeyboard();
 }
 
 
@@ -203,7 +297,7 @@ int main(int argc, char **argv)
 {
 	glutInit(&argc, argv);
 
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(screen_x, screen_y);
 	glutInitWindowPosition(50, 50);
 

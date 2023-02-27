@@ -2,31 +2,47 @@
 #include <vector>
 #include "glut.h"
 #include "Maze.h"
+#include "graphics.h"
 
 void Cell::Draw(int i, int j) {
-	if (l) {
-		glBegin(GL_LINES);
-		glVertex2d(i, j);
-		glVertex2d(i, j + 1);
-		glEnd();
-	}
-	if (b) {
-		glBegin(GL_LINES);
-		glVertex2d(i, j);
-		glVertex2d(i + 1, j);
-		glEnd();
-	}
-	if (r) {
-		glBegin(GL_LINES);
-		glVertex2d(i + 1, j);
-		glVertex2d(i + 1, j + 1);
-		glEnd();
-	}
-	if (t) {
-		glBegin(GL_LINES);
-		glVertex2d(i, j + 1);
-		glVertex2d(i + 1, j + 1);
-		glEnd();
+	if (current_view == top_view) {
+		if (l) {
+			glBegin(GL_LINES);
+			glVertex2d(i, j);
+			glVertex2d(i, j + 1);
+			glEnd();
+		}
+		if (b) {
+			glBegin(GL_LINES);
+			glVertex2d(i, j);
+			glVertex2d(i + 1, j);
+			glEnd();
+		}
+		if (r) {
+			glBegin(GL_LINES);
+			glVertex2d(i + 1, j);
+			glVertex2d(i + 1, j + 1);
+			glEnd();
+		}
+		if (t) {
+			glBegin(GL_LINES);
+			glVertex2d(i, j + 1);
+			glVertex2d(i + 1, j + 1);
+			glEnd();
+		}
+	} else {
+		if (t) {
+			unsigned char r = (unsigned char)((i * 34253 + j * 45563) % 256);
+			unsigned char g = (unsigned char)((i * 97654 + j * 36721) % 256);
+			unsigned char b = (unsigned char)((i * 67467 + j * 22345) % 256);
+			glColor3ub(255, 100, 200);
+			glBegin(GL_QUADS);
+			glVertex3d(i, j + 1, 0);
+			glVertex3d(i + 1, j + 1, 0);
+			glVertex3d(i + 1, j + 1, 1);
+			glVertex3d(i, j + 1, 1);
+			glEnd();
+		}
 	}
 }
 
