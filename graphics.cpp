@@ -10,12 +10,15 @@
 // NOTE: You should also have glut.h,
 // glut32.dll, and glut32.lib in the directory of your project.
 // OR, see GlutDirectories.txt for a better place to put them.
+#pragma once
 
 #include <cmath>
 #include <cstring>
 #include <ctime>
 #include "glut.h"
 #include "Maze.h"
+#include "Rat.h"
+#include "HelperFunctions.h"
 #include "graphics.h"
 
 
@@ -23,12 +26,13 @@
 double screen_x = 700;
 double screen_y = 500;
 
-Maze gMaze;
 
-double gX = 1.5;
-double gY = .5;
-double gDegrees = 30;
+Maze gMaze;
+Rat gRat;
 bool gMoveForward = false;
+bool gMoveBackwards = false;
+bool gTurnRight = false;
+bool gTurnLeft = false;
 double gSpeed = .001;
 
 // global types and variable:
@@ -50,43 +54,7 @@ void DrawCircle(double x1, double y1, double radius)
 	glEnd();
 }
 
-void DrawRectangle(double x1, double y1, double x2, double y2)
-{
-	glBegin(GL_QUADS);
-	glVertex2d(x1,y1);
-	glVertex2d(x2,y1);
-	glVertex2d(x2,y2);
-	glVertex2d(x1,y2);
-	glEnd();
-}
 
-void DrawTriangle(double x1, double y1, double x2, double y2, double x3, double y3)
-{
-	glBegin(GL_TRIANGLES);
-	glVertex2d(x1,y1);
-	glVertex2d(x2,y2);
-	glVertex2d(x3,y3);
-	glEnd();
-}
-
-// Outputs a string of text at the specified location.
-void DrawText(double x, double y, const char *string)
-{
-	void *font = GLUT_BITMAP_9_BY_15;
-
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glEnable(GL_BLEND);
-	
-	int len, i;
-	glRasterPos2d(x, y);
-	len = (int) strlen(string);
-	for (i = 0; i < len; i++) 
-	{
-		glutBitmapCharacter(font, string[i]);
-	}
-
-    glDisable(GL_BLEND);
-}
 
 
 //
@@ -126,15 +94,11 @@ void display(void)
 	}
 
 	if (gMoveForward) {
-		// get old code for getting dt
-		//gRat.MoveForward(dt);
-		double radians = gDegrees / 180 * 3.1415926;
-		double dx = cos(radians);
-		double dy = sin(radians);
-		gX += dx * gSpeed;
-		gY += dy * gSpeed;
+		gRat.Scurry(gMaze, GetDeltaTime());
 	}
-
+	if (gMoveBackwards) gRat.Scurry(gMaze, GetDeltaTime(), true);
+	if (gTurnLeft) gRat.SpinLeft(GetDeltaTime());
+	else if (gTurnRight) gRat.SpinRight(GetDeltaTime());
 	// Test lines that draw all three shapes and some text.
 	// Delete these when you get your code working.
 	glColor3d(0,0,1);
@@ -142,20 +106,43 @@ void display(void)
 	//Draw the rat, make your own class with Rat.Draw()
 	//Make a method to find start cell and calculate starting position
 	//Code_keys.cpp/.h available for download
-	glColor3d(1, 0, 0);
-	glPushMatrix();
-	glTranslated(gX, gY, 0);
-	glRotated(gDegrees, 0, 0, 1);
-	DrawTriangle(.3, 0, -.2, -.2, -.2, .2);
-	glPopMatrix();
+	
 
 	glColor3d(0,0,0);
 	gMaze.Draw();
-
+	gRat.Draw();
 	glutSwapBuffers();
 	glutPostRedisplay();
 }
 
+void keyboardup(unsigned char c, int x, int y) 
+{
+	switch (c)
+	{
+		case 27: // escape character means to quit the program
+			exit(0);
+			break;
+		case 'b':
+			// do something when 'b' character is hit.
+			break;
+		case 'w':
+			gMoveForward = false;
+			break;
+		case 'a':
+			gTurnLeft = false;
+			break;
+		case 's':
+			gMoveBackwards = false;
+			break;
+		case 'd':
+			gTurnRight = false;
+			break;
+		default:
+			return; // if we don't care, return without glutPostRedisplay()
+	}
+
+	glutPostRedisplay();
+}
 
 
 
@@ -183,6 +170,29 @@ void SetPerspectiveView(int w, int h)
 		/* Z near */ .1, /* Z far */ 30.0);
 	glMatrixMode(GL_MODELVIEW);
 }
+	switch (c) 
+	{
+		case 27: // escape character means to quit the program
+			exit(0);
+			break;
+		case 'b':
+			// do something when 'b' character is hit.
+			break;
+		case 'w':
+			gMoveForward = true;
+			break;
+		case 'a':
+			gTurnLeft = true;
+			break;
+		case 's':
+			gMoveBackwards = true;
+			break;
+		case 'd':
+			gTurnRight = true;
+			break;
+		default:
+			return; // if we don't care, return without glutPostRedisplay()
+	}
 
 
 // reshape:
@@ -262,9 +272,11 @@ void mouse(int mouse_button, int state, int x, int y)
 {
 	if (mouse_button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) 
 	{
+		gTurnLeft = true;
 	}
 	if (mouse_button == GLUT_LEFT_BUTTON && state == GLUT_UP) 
 	{
+		gTurnLeft = false;
 	}
 	if (mouse_button == GLUT_MIDDLE_BUTTON && state == GLUT_DOWN) 
 	{
@@ -276,9 +288,11 @@ void mouse(int mouse_button, int state, int x, int y)
 	}
 	if (mouse_button == GLUT_RIGHT_BUTTON && state == GLUT_UP)
 	{
+		gTurnRight = false;
 	}
 	if (mouse_button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN)
 	{
+		gTurnRight = true;
 	}
 	glutPostRedisplay();
 }
@@ -288,14 +302,15 @@ void InitializeMyStuff()
 {
 	srand(time(0));
 	gMaze.Initialize();
-	gRat.Init(gMaze.GetStartX() + .5, .5, 90);
-	//InitKeyboard();
+	gRat.SetPosition(gMaze.GetStartX() + 0.5, 0.5, 0);
 }
 
 
 int main(int argc, char **argv)
 {
 	glutInit(&argc, argv);
+	glutSetKeyRepeat(GLUT_KEY_REPEAT_OFF);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
 
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(screen_x, screen_y);
@@ -318,6 +333,7 @@ int main(int argc, char **argv)
 
 	glutDisplayFunc(display);
 	glutKeyboardFunc(keyboard);
+	glutKeyboardUpFunc(keyboardup);
 	glutReshapeFunc(reshape);
 	glutMouseFunc(mouse);
 
