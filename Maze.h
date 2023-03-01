@@ -4,8 +4,8 @@
 //need an initializer to randomly seed and break the walls
 // not in main function
 
-const int M = 6;
-const int N = 5;
+const int M = 12;
+const int N = 10;
 
 class Cell {
 public:

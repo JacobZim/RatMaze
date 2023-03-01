@@ -34,6 +34,22 @@ void Rat::Scurry( Maze & m, double DT, bool backwards ) {
 	}
 }
 
+double Rat::GetDX( double DT ) {
+	double radians = mDegrees / 180 * 3.14;// / 15926;
+	
+	double dx = cos(radians) * mMoveSpeed * DT;
+	double newX = mX + dx;
+	return dx;
+}
+double Rat::GetDY( double DT ) {
+	double radians = mDegrees / 180 * 3.14;// / 15926;
+	
+	double dy = sin(radians) * mMoveSpeed * DT;
+
+	double newY = mY + dy;
+	return dy;
+}
+
 void Rat::SpinLeft(double DT) {
 	mDegrees += mSpinSpeed * DT;
 	if (mDegrees >= 360) {

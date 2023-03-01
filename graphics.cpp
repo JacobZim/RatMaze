@@ -53,7 +53,7 @@ void display(void)
 	{
 		glEnable(GL_DEPTH_TEST);
 		glLoadIdentity();
-		gluLookAt(-3, -3, 7, 3, 3, 0, 0, 0, 1);
+		gluLookAt(-3, -3, 12, 4.5, 4, 0, 0, 0, 1);
 	}	//camera position, point looking at, tilt
 	else if (current_view == top_view)
 	{
@@ -64,15 +64,15 @@ void display(void)
 	{
 		glEnable(GL_DEPTH_TEST);
 		glLoadIdentity();
-		/*double z_level = .25;
+		double z_level = .25;
 		double x = gRat.GetX();
 		double y = gRat.GetY();
-		double dx = gRat.GetDX();
-		double dy = gRat.GetDY();
+		double dx = gRat.GetDX(GetDeltaTime());
+		double dy = gRat.GetDY(GetDeltaTime());
 		double at_x = x + dx;
 		double at_y = y + dy;
 		double at_z = z_level;
-		gluLookAt(x, y, z_level, at_x, at_y, at_z, 0, 0, 1);*/
+		gluLookAt(x, y, z_level, at_x, at_y, at_z, 0, 0, 1);
 	}
 
 	if (gMoveForward) {
@@ -153,6 +153,18 @@ void SetPerspectiveView(int w, int h)
 	glMatrixMode(GL_MODELVIEW);
 }
 
+void SetRatView(int w, int h)
+{
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	double aspectRatio = (GLdouble)w / (GLdouble)h;
+	gluPerspective(
+		/* field of view in degree */ 38.0,
+		/* aspect ratio */ aspectRatio,
+		/* Z near */ 0.1, /* Z far */ 30.0);
+	glMatrixMode(GL_MODELVIEW);
+}
+
 
 // reshape:
 void reshape(int w, int h)
@@ -169,9 +181,9 @@ void reshape(int w, int h)
 	{
 		SetPerspectiveView(w, h);
 	}
-	else // current_view == rat_view
+	else if (current_view == rat_view)
 	{
-		SetPerspectiveView(w, h);
+		SetRatView(w, h);
 	}
 }
 /*
@@ -220,7 +232,7 @@ void keyboard(unsigned char c, int x, int y)
 		break;
 	case 'r':
 		current_view = rat_view;
-		SetPerspectiveView(screen_x, screen_y);
+		SetRatView(screen_x, screen_y);
 		break;
 	case 'p':
 		current_view = perspective_view;
@@ -279,6 +291,7 @@ void InitializeMyStuff()
 
 int main(int argc, char **argv)
 {
+	//PlaySOund("file.wav", NULL, ASync); include windows.h
 	glutInit(&argc, argv);
 	glutSetKeyRepeat(GLUT_KEY_REPEAT_OFF);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);

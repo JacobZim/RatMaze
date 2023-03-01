@@ -36,12 +36,48 @@ void Cell::Draw(int i, int j) {
 			unsigned char r = (unsigned char)((i * 34253 + j * 45563) % 256);
 			unsigned char g = (unsigned char)((i * 97654 + j * 36721) % 256);
 			unsigned char b = (unsigned char)((i * 67467 + j * 22345) % 256);
-			glColor3ub(255, 100, 200);
+			glColor3ub(r, g, b);
 			glBegin(GL_QUADS);
 			glVertex3d(i, j + 1, 0);
 			glVertex3d(i + 1, j + 1, 0);
 			glVertex3d(i + 1, j + 1, 1);
 			glVertex3d(i, j + 1, 1);
+			glEnd();
+		}
+		if (r) {
+			unsigned char r = (unsigned char)((i * 34253 + j * 45563) % 256);
+			unsigned char g = (unsigned char)((i * 97654 + j * 36721) % 256);
+			unsigned char b = (unsigned char)((i * 67467 + j * 22345) % 256);
+			glColor3ub(r, g, b);
+			glBegin(GL_QUADS);
+			glVertex3d(i + 1, j + 1, 0);
+			glVertex3d(i + 1, j, 0);
+			glVertex3d(i + 1, j, 1);
+			glVertex3d(i + 1, j + 1, 1);
+			glEnd();
+		}
+		if (j == 0 && b) {
+			unsigned char r = (unsigned char)((i * 34253 + j * 45563) % 256);
+			unsigned char g = (unsigned char)((i * 97654 + j * 36721) % 256);
+			unsigned char b = (unsigned char)((i * 67467 + j * 22345) % 256);
+			glColor3ub(r, g, b);
+			glBegin(GL_QUADS);
+			glVertex3d(i, j, 0);
+			glVertex3d(i + 1, j, 0);
+			glVertex3d(i + 1, j, 1);
+			glVertex3d(i, j, 1);
+			glEnd();
+		}
+		if (i == 0) {
+			unsigned char r = (unsigned char)((i * 34253 + j * 45563) % 256);
+			unsigned char g = (unsigned char)((i * 97654 + j * 36721) % 256);
+			unsigned char b = (unsigned char)((i * 67467 + j * 22345) % 256);
+			glColor3ub(r, g, b);
+			glBegin(GL_QUADS);
+			glVertex3d(i, j, 0);
+			glVertex3d(i, j + 1, 0);
+			glVertex3d(i, j + 1, 1);
+			glVertex3d(i, j, 1);
 			glEnd();
 		}
 	}
