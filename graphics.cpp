@@ -64,14 +64,16 @@ void display(void)
 	{
 		glEnable(GL_DEPTH_TEST);
 		glLoadIdentity();
-		double z_level = .25;
+		double z_level = .25; //rat.GetZ(x,y);
 		double x = gRat.GetX();
 		double y = gRat.GetY();
-		double dx = gRat.GetDX(GetDeltaTime());
-		double dy = gRat.GetDY(GetDeltaTime());
+		double dx = gRat.GetDX(GetDeltaTime()); //2*rat.GetDXUnscaled()
+		double dy = gRat.GetDY(GetDeltaTime()); //2*rat.GetDYUnscaled()
 		double at_x = x + dx;
 		double at_y = y + dy;
-		double at_z = z_level;
+		//float z2 = rat.GetZ(at_x, at_y);
+		//float downward_tilt = .30;
+		double at_z = z_level; //z2 - downward_tilt
 		gluLookAt(x, y, z_level, at_x, at_y, at_z, 0, 0, 1);
 	}
 
@@ -329,3 +331,22 @@ int main(int argc, char **argv)
 
 	return 0;
 }
+
+
+/*
+void AdjustWaterHeight(double t) {
+	waterHeight = -2 + .2 * sin(t);
+}
+
+void DrawMap() {
+	
+
+
+
+
+	//Draw Water
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
+	glColor4d(0.1, 0.2, 0.9, 0.8;
+	//Draw really big rect
+*/

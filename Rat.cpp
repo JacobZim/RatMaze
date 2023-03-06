@@ -49,6 +49,23 @@ double Rat::GetDY( double DT ) {
 	double newY = mY + dy;
 	return dy;
 }
+/*
+float Rat::GetZ(float xpos, float ypos) {
+	float terrainHeight = functino(xpos, ypos,
+	
+	
+	
+float function(float x, float y) {
+	float z = 0;
+	float zscale = 0.75;
+	z += 2*sin(.4*y);
+	z += 1.5*cos(.3*x);
+	z += 4*sin(.2*x)* cos(.3*y);
+	z += 6*sin(.11*x)*cos(.03*y));
+	z = 3*sin(.0625*y+.1) + 4*sin(.1834577*x -.2) + 5*sin(.35223455*y+.3)*sin(.094674*x+.5);
+	return z*scale;
+}
+*/
 
 void Rat::SpinLeft(double DT) {
 	mDegrees += mSpinSpeed * DT;
