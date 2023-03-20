@@ -90,17 +90,18 @@ void Cell::Draw(int i, int j) {
 			
 			glEnable(GL_TEXTURE_2D);
 
-			glBindTexture(GL_TEXTURE_2D, texName[0]); // Sandra
+			glBindTexture(GL_TEXTURE_2D, texName[1]); // Sandra
 
 			glBegin(GL_QUADS);
-			glTexCoord2f(0, 1); glVertex3d(i, j + 1, 0); // All of Sandra
-			glTexCoord2f(1, 1); glVertex3d(i + 1, j + 1, 0);
-			glTexCoord2f(1, 0); glVertex3d(i + 1, j + 1, 1);
+			glTexCoord2f(0, 4); glVertex3d(i, j + 1, 0); // All of Sandra
+			glTexCoord2f(4, 4); glVertex3d(i + 1, j + 1, 0);
+			glTexCoord2f(4, 0); glVertex3d(i + 1, j + 1, 1);
 			glTexCoord2f(0, 0); glVertex3d(i, j + 1, 1);
 			glEnd(); // GL_QUADS
 			glDisable(GL_TEXTURE_2D);
 		}
 		if (r) {
+			/*
 			unsigned char r = (unsigned char)((i * 34253 + j * 45563) % 256);
 			unsigned char g = (unsigned char)((i * 97654 + j * 36721) % 256);
 			unsigned char b = (unsigned char)((i * 67467 + j * 22345) % 256);
@@ -110,9 +111,21 @@ void Cell::Draw(int i, int j) {
 			glVertex3d(i + 1, j, 0);
 			glVertex3d(i + 1, j, 1);
 			glVertex3d(i + 1, j + 1, 1);
-			glEnd();
+			glEnd();*/
+			glEnable(GL_TEXTURE_2D);
+
+			glBindTexture(GL_TEXTURE_2D, texName[1]); // Sandra
+
+			glBegin(GL_QUADS);
+			glTexCoord2f(0, 1); glVertex3d(i + 1, j + 1, 0); // All of Sandra
+			glTexCoord2f(1, 1); glVertex3d(i + 1, j, 0);
+			glTexCoord2f(1, 0); glVertex3d(i + 1, j, 1);
+			glTexCoord2f(0, 0); glVertex3d(i + 1, j + 1, 1);
+			glEnd(); // GL_QUADS
+			glDisable(GL_TEXTURE_2D);
 		}
 		if (j == 0 && b) {
+			/*
 			unsigned char r = (unsigned char)((i * 34253 + j * 45563) % 256);
 			unsigned char g = (unsigned char)((i * 97654 + j * 36721) % 256);
 			unsigned char b = (unsigned char)((i * 67467 + j * 22345) % 256);
@@ -122,9 +135,21 @@ void Cell::Draw(int i, int j) {
 			glVertex3d(i + 1, j, 0);
 			glVertex3d(i + 1, j, 1);
 			glVertex3d(i, j, 1);
-			glEnd();
+			glEnd(); */
+			glEnable(GL_TEXTURE_2D);
+
+			glBindTexture(GL_TEXTURE_2D, texName[0]); // Sandra
+
+			glBegin(GL_QUADS);
+			glTexCoord2f(0, 1); glVertex3d(i, j, 0); // All of Sandra
+			glTexCoord2f(1, 1); glVertex3d(i + 1, j, 0);
+			glTexCoord2f(1, 0); glVertex3d(i + 1, j, 1);
+			glTexCoord2f(0, 0); glVertex3d(i, j, 1);
+			glEnd(); // GL_QUADS
+			glDisable(GL_TEXTURE_2D);
 		}
 		if (i == 0) {
+			/*
 			unsigned char r = (unsigned char)((i * 34253 + j * 45563) % 256);
 			unsigned char g = (unsigned char)((i * 97654 + j * 36721) % 256);
 			unsigned char b = (unsigned char)((i * 67467 + j * 22345) % 256);
@@ -134,7 +159,18 @@ void Cell::Draw(int i, int j) {
 			glVertex3d(i, j + 1, 0);
 			glVertex3d(i, j + 1, 1);
 			glVertex3d(i, j, 1);
-			glEnd();
+			glEnd(); */
+			glEnable(GL_TEXTURE_2D);
+
+			glBindTexture(GL_TEXTURE_2D, texName[0]); // Sandra
+
+			glBegin(GL_QUADS);
+			glTexCoord2f(0, 1); glVertex3d(i, j, 0); // All of Sandra
+			glTexCoord2f(1, 1); glVertex3d(i, j + 1, 0);
+			glTexCoord2f(1, 0); glVertex3d(i, j + 1, 1);
+			glTexCoord2f(0, 0); glVertex3d(i, j, 1);
+			glEnd(); // GL_QUADS
+			glDisable(GL_TEXTURE_2D);
 		}
 	}
 }
@@ -144,6 +180,7 @@ Maze::Maze() {
 
 void Maze::Initialize() {
 	RemoveWalls(0, 0);
+	InitializeMyStuff1();
 
 	// Knock out 1 bottom wall and 1 top wall
 	mStartX = rand() % mW;
