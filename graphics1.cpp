@@ -2,12 +2,13 @@
 // Spring, 2020
 //
 // This sample project shows how to import a picture file and use it as a texture map.
-
+/*
 #include <iostream>
 using namespace std;
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
+#include "graphics.h"
 
 #if WIN32
 #include "glut.h"
@@ -16,8 +17,8 @@ using namespace std;
 #else // Linux
 #include <GL/freeglut.h>
 #endif
-
-
+*/
+/*
 // Global Variables (Only what you need!)
 double screen_x = 700;
 double screen_y = 500;
@@ -111,12 +112,12 @@ void SetPerspectiveView1(int w, int h)
 	glLoadIdentity();
 	double aspectRatio = (double) w/(double) h;
 	gluPerspective( 
-	/* field of view in degree */ 38.0,
-	/* aspect ratio */ aspectRatio,
-	/* Z near*/  1, /*Z far*/  1000);
-	glMatrixMode(GL_MODELVIEW);
-}
-
+	//* field of view in degree  38.0,
+	//* aspect ratio  aspectRatio,
+	// Z near  1,  Z far  1000);
+	//glMatrixMode(GL_MODELVIEW);
+//}
+/*
 // This callback function gets called by the Glut
 // system whenever the window is resized by the user.
 void reshape1(int w, int h)
@@ -167,7 +168,7 @@ void InitializeMyStuff1()
 	}
 }
 
-int main(int argc, char **argv)
+int main1(int argc, char **argv)
 {
 	glutInit(&argc, argv);
 
@@ -197,3 +198,4 @@ int main(int argc, char **argv)
 
 	return 0;
 }
+*/

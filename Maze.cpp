@@ -5,6 +5,48 @@
 #include "Maze.h"
 #include "graphics.h"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
+// Textures
+const int num_textures = 2;
+unsigned int texName[num_textures];
+
+void InitializeMyStuff1()
+{
+	const char max_file_size = 100;
+	char imageFiles[num_textures][max_file_size] = { "sandra880.jpg", "brick.jpg" };
+
+	glGenTextures(num_textures, texName);
+
+	for (int i = 0; i < num_textures; i++)
+	{
+		glBindTexture(GL_TEXTURE_2D, texName[i]);
+		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		int width, height, nrChannels;
+		unsigned char* data = stbi_load(imageFiles[i], &width, &height, &nrChannels, 0);
+		if (data)
+		{
+			gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGB, width, height, GL_RGB, GL_UNSIGNED_BYTE, data);
+			// NOTE: If the above command doesn't work, try it this way:
+				//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+				//glGenerateMipmap(GL_TEXTURE_2D);
+		}
+		else
+		{
+			std::cout << "Failed to load texture" << std::endl;
+		}
+		stbi_image_free(data);
+	}
+}
+
 void Cell::Draw(int i, int j) {
 	if (current_view == top_view) {
 		if (l) {
@@ -33,6 +75,7 @@ void Cell::Draw(int i, int j) {
 		}
 	} else {
 		if (t) {
+			/*
 			unsigned char r = (unsigned char)((i * 34253 + j * 45563) % 256);
 			unsigned char g = (unsigned char)((i * 97654 + j * 36721) % 256);
 			unsigned char b = (unsigned char)((i * 67467 + j * 22345) % 256);
@@ -43,6 +86,19 @@ void Cell::Draw(int i, int j) {
 			glVertex3d(i + 1, j + 1, 1);
 			glVertex3d(i, j + 1, 1);
 			glEnd();
+			*/
+			
+			glEnable(GL_TEXTURE_2D);
+
+			glBindTexture(GL_TEXTURE_2D, texName[0]); // Sandra
+
+			glBegin(GL_QUADS);
+			glTexCoord2f(0, 1); glVertex3d(i, j + 1, 0); // All of Sandra
+			glTexCoord2f(1, 1); glVertex3d(i + 1, j + 1, 0);
+			glTexCoord2f(1, 0); glVertex3d(i + 1, j + 1, 1);
+			glTexCoord2f(0, 0); glVertex3d(i, j + 1, 1);
+			glEnd(); // GL_QUADS
+			glDisable(GL_TEXTURE_2D);
 		}
 		if (r) {
 			unsigned char r = (unsigned char)((i * 34253 + j * 45563) % 256);

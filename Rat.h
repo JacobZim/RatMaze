@@ -21,5 +21,5 @@ public:
 private:
 	double mX = 0, mY = 0, mDegrees = 0;
 	double mSpinSpeed = .4, mMoveSpeed = 0.004;
-	double ratsRadius = 0.25;
+	double ratsRadius = 0.2;
 };

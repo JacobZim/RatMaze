@@ -7,6 +7,7 @@
 const int M = 12;
 const int N = 10;
 
+
 class Cell {
 public:
 	Cell() {

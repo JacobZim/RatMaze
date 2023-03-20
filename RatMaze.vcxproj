@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="Code_keys.cpp" />
     <ClCompile Include="graphics.cpp" />
+    <ClCompile Include="graphics1.cpp" />
     <ClCompile Include="HelperFunctions.cpp" />
     <ClCompile Include="Maze.cpp" />
     <ClCompile Include="Rat.cpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="Maze.h" />
     <ClInclude Include="Rat.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="stb_image.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="glut32.dll" />

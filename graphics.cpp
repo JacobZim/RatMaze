@@ -15,6 +15,7 @@
 #include <cmath>
 #include <cstring>
 #include <ctime>
+#include <iostream>
 #include "glut.h"
 #include "Maze.h"
 #include "Rat.h"
@@ -23,8 +24,10 @@
 
 
 // Global Variables (Only what you need!)
+
 double screen_x = 700;
 double screen_y = 500;
+
 viewtype current_view = top_view;
 
 Maze gMaze;
@@ -288,6 +291,7 @@ void InitializeMyStuff()
 	srand(time(0));
 	gMaze.Initialize();
 	gRat.SetPosition(gMaze.GetStartX() + 0.5, 0.5, 0);
+
 }
 
 
