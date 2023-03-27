@@ -139,15 +139,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Code_keys.cpp" />
     <ClCompile Include="graphics.cpp" />
-    <ClCompile Include="graphics1.cpp" />
     <ClCompile Include="HelperFunctions.cpp" />
     <ClCompile Include="Maze.cpp" />
     <ClCompile Include="Rat.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Code_keys.h" />
     <ClInclude Include="glut.h" />
     <ClInclude Include="HelperFunctions.h" />
     <ClInclude Include="graphics.h" />
