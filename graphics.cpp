@@ -70,13 +70,13 @@ void display(void)
 		double z_level = .25; //rat.GetZ(x,y);
 		double x = gRat.GetX();
 		double y = gRat.GetY();
-		double dx = gRat.GetDX(GetDeltaTime()); //2*rat.GetDXUnscaled()
-		double dy = gRat.GetDY(GetDeltaTime()); //2*rat.GetDYUnscaled()
+		double dx = 50*gRat.GetDX(GetDeltaTime()); //2*rat.GetDXUnscaled()
+		double dy = 50*gRat.GetDY(GetDeltaTime()); //2*rat.GetDYUnscaled()
 		double at_x = x + dx;
 		double at_y = y + dy;
 		//float z2 = rat.GetZ(at_x, at_y);
 		//float downward_tilt = .30;
-		double at_z = z_level; //z2 - downward_tilt
+		double at_z = .26; //z2 - downward_tilt
 		gluLookAt(x, y, z_level, at_x, at_y, at_z, 0, 0, 1);
 	}
 
@@ -164,7 +164,7 @@ void SetRatView(int w, int h)
 	glLoadIdentity();
 	double aspectRatio = (GLdouble)w / (GLdouble)h;
 	gluPerspective(
-		/* field of view in degree */ 38.0,
+		/* field of view in degree */ 120.0,
 		/* aspect ratio */ aspectRatio,
 		/* Z near */ 0.1, /* Z far */ 30.0);
 	glMatrixMode(GL_MODELVIEW);
