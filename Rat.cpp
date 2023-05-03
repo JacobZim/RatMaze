@@ -94,7 +94,7 @@ void Rat::SetPosition(double x, double y, double deg) {
 void Rat::Draw() {
 	
 	glPushMatrix();
-	glTranslated(mX, mY, 0);
+	glTranslated(mX, mY, mZ);
 	glRotated(mDegrees, 0, 0, 1);
 	//DrawTriangle(.3, 0, -.2, -.2, -.2, .2);
 	
@@ -115,6 +115,12 @@ void Rat::Draw() {
 	glPopMatrix();
 }
 
+void Rat::Elevate() {
+	if (this->GetZ() < 0.95) mZ += 0.05;
+}
+void Rat::Lower() {
+	if (this->GetZ() >= 0.05) mZ -= 0.05;
+}
 
 
 //bitblit for using an image

@@ -67,7 +67,7 @@ void display(void)
 	{
 		glEnable(GL_DEPTH_TEST);
 		glLoadIdentity();
-		double z_level = .25; //rat.GetZ(x,y);
+		double z_level = gRat.GetZ();
 		double x = gRat.GetX();
 		double y = gRat.GetY();
 		double dx = 50*gRat.GetDX(GetDeltaTime()); //2*rat.GetDXUnscaled()
@@ -76,7 +76,7 @@ void display(void)
 		double at_y = y + dy;
 		//float z2 = rat.GetZ(at_x, at_y);
 		//float downward_tilt = .30;
-		double at_z = .26; //z2 - downward_tilt
+		double at_z = z_level + 0.01; //z2 - downward_tilt
 		gluLookAt(x, y, z_level, at_x, at_y, at_z, 0, 0, 1);
 	}
 
@@ -232,9 +232,6 @@ void keyboard(unsigned char c, int x, int y)
 	case 'd':
 		gTurnRight = true;
 		break;
-	case 'b':
-		// do something when 'b' character is hit.
-		break;
 	case 'r':
 		current_view = rat_view;
 		SetRatView(screen_x, screen_y);
@@ -246,6 +243,12 @@ void keyboard(unsigned char c, int x, int y)
 	case 't':
 		current_view = top_view;
 		SetTopView(screen_x, screen_y);
+		break;
+	case 'q':
+		gRat.Lower();
+		break;
+	case 'e':
+		gRat.Elevate();
 		break;
 	default:
 		return; // if we don't care, return without glutPostRedisplay()
